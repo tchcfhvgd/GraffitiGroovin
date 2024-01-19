@@ -20,10 +20,8 @@ class FlxVideo extends FlxBasic {
 	#if VIDEOS_ALLOWED
 	public var finishCallback:Void->Void = null;
 
-	#if desktop
 	public static var vlcBitmap:VlcBitmap;
 	public var onSkip:Void->Void = null;
-	#end
 
 	public var skipSprite:SkipSprite;
 	public var holdingTime:Float = 0;
@@ -63,7 +61,7 @@ class FlxVideo extends FlxBasic {
 		});
 		netStream.play(name);
 
-		#elseif desktop
+		#end
 		// by Polybius, check out PolyEngine! https://github.com/polybiusproxy/PolyEngine
 
 		vlcBitmap = new VlcBitmap();
@@ -92,7 +90,6 @@ class FlxVideo extends FlxBasic {
 
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
-		#end
 	}
 	
 	private function onKeyPress(event:KeyboardEvent):Void
@@ -129,7 +126,6 @@ class FlxVideo extends FlxBasic {
 		return false;
 	}
 
-	#if desktop
 	function checkFile(fileName:String):String
 	{
 		var pDir = "";
@@ -244,7 +240,6 @@ class FlxVideo extends FlxBasic {
 				finishCallback();
 			}
 		}
-	#end
 	#end
 }
 
