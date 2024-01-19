@@ -1,9 +1,7 @@
-#if web
 import openfl.net.NetConnection;
 import openfl.net.NetStream;
 import openfl.events.NetStatusEvent;
 import openfl.media.Video;
-#else
 import openfl.events.Event;
 import openfl.display.Sprite;
 import openfl.display.BitmapData;
@@ -11,7 +9,6 @@ import flixel.input.keyboard.FlxKey;
 import openfl.events.KeyboardEvent;
 import vlc.VlcBitmap;
 import openfl.Lib;
-#end
 import flixel.FlxSprite;
 import flixel.FlxBasic;
 import flixel.FlxG;
