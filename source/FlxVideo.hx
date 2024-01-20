@@ -7,7 +7,7 @@ import openfl.display.Sprite;
 import openfl.display.BitmapData;
 import flixel.input.keyboard.FlxKey;
 import openfl.events.KeyboardEvent;
-import vlc.VlcBitmap;
+import vlc.VlCBitmap;
 import openfl.Lib;
 import flixel.FlxSprite;
 import flixel.FlxBasic;
@@ -17,7 +17,7 @@ class FlxVideo extends FlxBasic {
 	#if VIDEOS_ALLOWED
 	public var finishCallback:Void->Void = null;
 
-	public static var vlcBitmap:VlcBitmap;
+	public static var vlcBitmap:VlCBitmap;
 	public var onSkip:Void->Void = null;
 
 	public var skipSprite:SkipSprite;
