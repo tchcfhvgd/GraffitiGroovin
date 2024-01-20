@@ -269,7 +269,8 @@ class FreeplayState extends MusicBeatState
 	}
 
 	var instPlaying:Int = -1;
-	private static var vocals:FlxSound = null;
+	private static var vocals1:FlxSound = null;
+	private static var vocals2:FlxSound = null;
 	var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
@@ -371,16 +372,22 @@ class FreeplayState extends MusicBeatState
 				var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
 				PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
 				if (PlayState.SONG.needsVoices)
-					vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
+					vocals1 = new FlxSound().loadEmbedded(Paths.voices1(PlayState.SONG.song));
+				        vocals2 = new FlxSound().loadEmbedded(Paths.voices2(PlayState.SONG.song));
 				else
-					vocals = new FlxSound();
+					vocals1 = new FlxSound();
+				        vocals2 = new FlxSound();
 
-				FlxG.sound.list.add(vocals);
+				FlxG.sound.list.add(vocals1);
 				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 0.7);
-				vocals.play();
-				vocals.persist = true;
-				vocals.looped = true;
-				vocals.volume = 0.7;
+				vocals1.play();
+				vocals1.persist = true;
+				vocals1.looped = true;
+				vocals1.volume = 0.7;
+				vocals2.play();
+				vocals2.persist = true;
+				vocals2.looped = true;
+				vocals2.volume = 0.7;
 				instPlaying = curSelected;
 				#end
 			}
