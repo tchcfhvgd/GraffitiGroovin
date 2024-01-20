@@ -60,6 +60,10 @@ import DialogueBoxPsych;
 import sys.FileSystem;
 #end
 
+#if VIDEOS_ALLOWED
+import VideoHandler as MP4Handler;
+#end
+
 using StringTools;
 
 class PlayState extends MusicBeatState
@@ -938,7 +942,6 @@ class PlayState extends MusicBeatState
 	}
 
 	#if VIDEOS_ALLOWED
-	public var midSongCutscene:FlxVideo = null;
 	public var stopCutsceneOnTime:Float = -1;
 	#end
 	public function midSongVideo(name:String, skipToTime:Float):Void {
@@ -949,62 +952,38 @@ class PlayState extends MusicBeatState
 			startOnTime = skipToTime * 1000;
 			return;
 		}
-
-		var foundFile:Bool = false;
-		var fileName:String = #if MODS_ALLOWED Paths.modFolders('videos/' + name + '.' + Paths.VIDEO_EXT); #else ''; #end
+             
+	        var filepath:String = Paths.video(name);
 		#if sys
-		if(FileSystem.exists(fileName)) {
-			foundFile = true;
-		}
+		if(!FileSystem.exists(filepath))
+		#else
+		if(!OpenFlAssets.exists(filepath))
 		#end
-
-		if(!foundFile) {
-			fileName = Paths.video(name);
-			#if sys
-			if(FileSystem.exists(fileName))
-			#else
-			if(OpenFlAssets.exists(fileName))
-			#end
-			{
-				foundFile = true;
-			}
+		{
+			FlxG.log.warn('Couldnt find video file: ' + name);
+			startAndEnd();
+			return;
 		}
+			var video:MP4Handler = new MP4Handler();
+		        video.playVideo(filepath);
+		        skipCountdown = true;
+		        startCountdown();
 
-		if(foundFile) {
-			inCutscene = true;
-			var bg = new FlxSpriteExtra(-400, -250).makeSolid(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
-			bg.scrollFactor.set();
-			add(bg);
-
-			midSongCutscene = new FlxVideo(fileName);
-			FlxVideo.vlcBitmap.onComplete = null;
-			canPause = false;
-
-			midSongCutscene.finishCallback = function() {
-				remove(bg);
-				inCutscene = false;
-				canPause = true;
-
+			video.finishCallback = function() {
+				
+				setSongTime(stopCutsceneOnTime - 100);
+				
 				if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null && !endingSong && !isCameraOnForcedPos)
 				{
 					moveCameraSection(Std.int(curStep / 16));
 					camFollowPos.setPosition(camFollow.x, camFollow.y);
 				}
 				stopCutsceneOnTime = -1;
-			};
-
-			FlxVideo.vlcBitmap.onVideoReady = function() {
-				skipCountdown = true;
-				startCountdown();
-				stopCutsceneOnTime = FlxVideo.vlcBitmap.length;
-
-				midSongCutscene.onSkip = function() {
-					setSongTime(stopCutsceneOnTime - 100);
-				};
-			};
-		}
+			}
 		#else
+		FlxG.log.warn('Platform not supported!');
 		startCountdown();
+		return;
 		#end
 	}
 
