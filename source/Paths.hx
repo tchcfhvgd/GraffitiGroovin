@@ -224,18 +224,18 @@ class Paths
 		return file;
 	}
 
-	inline static public function voices-dad(song:String):Any
+	inline static public function voices2(song:String):Any
 	{
 		var songKey:String = '${formatToSongPath(song)}/Voices-dad';
-		var voices-dad = returnSound('songs', songKey);
-		return voices-dad;
+		var voices2 = returnSound('songs', songKey);
+		return voices2;
 	}
 	
-	inline static public function voices-bf(song:String):Any
+	inline static public function voices1(song:String):Any
 	{
 		var songKey:String = '${formatToSongPath(song)}/Voices-bf';
-		var voices-bf = returnSound('songs', songKey);
-		return voices-bf;
+		var voices1 = returnSound('songs', songKey);
+		return voices1;
 	}
 
 	inline static public function inst(song:String):Any
