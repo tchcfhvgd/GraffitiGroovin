@@ -29,6 +29,7 @@ class Paths
 {
 	inline public static var SOUND_EXT = #if web "mp3" #else "ogg" #end;
 	inline public static var VIDEO_EXT = "mp4";
+	public static var IMAGE_EXT = "png";
 
 	#if MODS_ALLOWED
 	public static var ignoreModFolders:Array<String> = [
@@ -465,6 +466,10 @@ class Paths
 		return modFolders('images/' + key + '.png');
 	}
 
+	inline static public function modsSongJson(key:String) {
+		return modFolders('songs/' + key + '.json');
+	}
+	
 	inline static public function modsXml(key:String) {
 		return modFolders('images/' + key + '.xml');
 	}
