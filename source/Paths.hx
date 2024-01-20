@@ -177,6 +177,11 @@ class Paths
 		return getPath('data/$key.json', TEXT, library);
 	}
 
+	inline static public function jsonSong(key:String, ?library:String)
+	{
+		return getPath('songs/$key.json', TEXT, library);
+	}
+	
 	inline static public function shaderFragment(key:String, ?library:String)
 	{
 		return getPath('shaders/$key.frag', TEXT, library);
@@ -321,6 +326,49 @@ class Paths
 		#end
 	}
 
+	public static function cacheGraphic(path:String, ?library:String) {
+		if (OpenFlAssets.exists(path, IMAGE)) {
+			if(!currentTrackedAssets.exists(path)) {
+				var newGraphic:FlxGraphic = FlxG.bitmap.add(path, false, path);
+				newGraphic.persist = true;
+				currentTrackedAssets.set(path, newGraphic);
+			}
+			localTrackedAssets.push(path);
+			return currentTrackedAssets.get(path);
+		}
+		trace('oh no its returning null NOOOO');
+		return null;
+	}
+
+	public static function cacheSound(foldlib:String, path:String, ?library:String) {
+		#if MODS_ALLOWED
+		if(FileSystem.exists(path)) {
+			if(!currentTrackedSounds.exists(path)) {
+				currentTrackedSounds.set(path, Sound.fromFile(path));
+			}
+			localTrackedAssets.push(path);
+			return currentTrackedSounds.get(path);
+		}
+		#end
+		// I hate this so god damn much
+		var gottenPath:String = path.substring(path.indexOf(':') + 1, path.length);
+		// trace(gottenPath);
+		if(!currentTrackedSounds.exists(gottenPath))
+		#if MODS_ALLOWED
+			currentTrackedSounds.set(gottenPath, Sound.fromFile(gottenPath));
+		#else
+		{
+			var folder:String = '';
+			#if html5
+			if(path == 'songs') folder = 'songs:';
+			#end
+			currentTrackedSounds.set(gottenPath, OpenFlAssets.getSound(folder + getPath(path, SOUND, library)));
+		}
+		#end
+		localTrackedAssets.push(gottenPath);
+		return currentTrackedSounds.get(gottenPath);
+	}
+	
 	inline static public function formatToSongPath(path:String) {
 		var invalidChars = ~/[~&\\;:<>#]/;
 		var hideChars = ~/[.,'"%?!]/;
