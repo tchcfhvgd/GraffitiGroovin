@@ -385,41 +385,4 @@ class Note extends FlxSprite
 				alpha = 0.3;
 		}
 	}
-
-	override function set_clipRect(rect:FlxRect):FlxRect
-	{
-		clipRect = rect;
-
-		if (frames != null)
-			frame = frames.frames[animation.frameIndex];
-
-		return rect;
-	}
-
-	@:noCompletion
-	override function drawComplex(camera:FlxCamera):Void
-	{
-		_frame.prepareMatrix(_matrix, FlxFrameAngle.ANGLE_0, checkFlipX(), checkFlipY());
-		_matrix.translate(-origin.x, -origin.y);
-		_matrix.scale(scale.x, scale.y);
-
-		if (bakedRotationAngle <= 0)
-		{
-			updateTrig();
-
-			if (angle != 0)
-				_matrix.rotateWithTrig(_cosAngle, _sinAngle);
-		}
-
-		_point.add(origin.x, origin.y);
-		_matrix.translate(_point.x, _point.y);
-
-		if (isPixelPerfectRender(camera))
-		{
-			_matrix.tx = Math.floor(_matrix.tx);
-			_matrix.ty = Math.floor(_matrix.ty);
-		}
-
-		camera.drawPixels(_frame, framePixels, _matrix, colorTransform, blend, antialiasing, shader, colorSwap);
-	}
 }
