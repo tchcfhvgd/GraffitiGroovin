@@ -968,6 +968,7 @@ class PlayState extends MusicBeatState
 		        video.playVideo(filepath);
 		        skipCountdown = true;
 		        startCountdown();
+		        canPause = false;
 
 			video.finishCallback = function() {
 				
@@ -979,6 +980,7 @@ class PlayState extends MusicBeatState
 					camFollowPos.setPosition(camFollow.x, camFollow.y);
 				}
 				stopCutsceneOnTime = -1;
+				canPause = true;
 			}
 		#else
 		FlxG.log.warn('Platform not supported!');
