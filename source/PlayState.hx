@@ -982,10 +982,6 @@ class PlayState extends MusicBeatState
 				stopCutsceneOnTime = -1;
 				canPause = true;
 			}
-		#else
-		FlxG.log.warn('Platform not supported!');
-		startCountdown();
-		return;
 		#end
 	}
 
@@ -1309,9 +1305,9 @@ class PlayState extends MusicBeatState
 		{
 			vocals = new FlxSound().loadEmbedded(Paths.voices1(PlayState.SONG.song));
 		        
+		}
 		else
 			vocals = new FlxSound().loadEmbedded(Paths.voices2(PlayState.SONG.song));
-		}
 
 		vocals.onComplete = function()
 		{
