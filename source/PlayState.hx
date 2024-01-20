@@ -1781,13 +1781,6 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		#if VIDEOS_ALLOWED
-		if (stopCutsceneOnTime > 0 && Conductor.songPosition >= stopCutsceneOnTime)
-		{
-			midSongCutscene.onVLCComplete();
-		}
-		#end
-
 		if(botplayTxt.visible) {
 			botplaySine += 180 * elapsed;
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
