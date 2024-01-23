@@ -1311,11 +1311,10 @@ class PlayState extends MusicBeatState
 		{
 			vocals1 = new FlxSound().loadEmbedded(Paths.voices1(PlayState.SONG.song));
 		        vocals2 = new FlxSound().loadEmbedded(Paths.voices2(PlayState.SONG.song));
-		}
-		else
+		}else{
 			vocals1 = new FlxSound();
 		        vocals2 = new FlxSound();
-
+		}
 		vocals1.onComplete = function()
 		{
 			vocalsFinished = true;
