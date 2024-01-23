@@ -667,10 +667,16 @@ class FunkinLua {
 
 			FlxG.sound.music.pause();
 			FlxG.sound.music.volume = 0;
-			if(PlayState.instance.vocals != null)
+			if(PlayState.instance.vocals1 != null)
 			{
-				PlayState.instance.vocals.pause();
-				PlayState.instance.vocals.volume = 0;
+				PlayState.instance.vocals1.pause();
+				PlayState.instance.vocals1.volume = 0;
+			}
+			
+			if(PlayState.instance.vocals2 != null)
+			{
+				PlayState.instance.vocals2.pause();
+				PlayState.instance.vocals2.volume = 0;
 			}
 		});
 
