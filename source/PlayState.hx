@@ -973,7 +973,7 @@ class PlayState extends MusicBeatState
 
 			video.finishCallback = function() {
 				
-				setSongTime(stopCutsceneOnTime - 100);
+				startOnTime = skipToTime * 1000;
 				
 				if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null && !endingSong && !isCameraOnForcedPos)
 				{
@@ -1222,13 +1222,16 @@ class PlayState extends MusicBeatState
 		if(time < 0) time = 0;
 
 		FlxG.sound.music.pause();
-		vocals.pause();
+		vocals1.pause();
+		vocals2.pause();
 
 		FlxG.sound.music.time = time;
 		FlxG.sound.music.play();
 
-		vocals.time = time;
-		vocals.play();
+		vocals1.time = time;
+		vocals1.play();
+		vocals2.time = time;
+		vocals2.play();
 		Conductor.songPosition = time;
 	}
 
@@ -1254,7 +1257,8 @@ class PlayState extends MusicBeatState
 
 		FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 1, false);
 		FlxG.sound.music.onComplete = onSongComplete;
-		vocals.play();
+		vocals1.play();
+		vocals2.play();
 
 		if(startOnTime > 0)
 		{
@@ -1265,7 +1269,8 @@ class PlayState extends MusicBeatState
 		if(paused) {
 			//trace('Oopsie doopsie! Paused sound');
 			FlxG.sound.music.pause();
-			vocals.pause();
+			vocals1.pause();
+			vocals2.pause();
 		}
 
 		// Song duration in a float, useful for the time left feature
@@ -1303,16 +1308,26 @@ class PlayState extends MusicBeatState
 		curSong = SONG.song;
 
 		if (SONG.needsVoices)
-			vocals = new FlxSound().loadEmbedded(Paths.voices1(PlayState.SONG.song));
+		{
+			vocals1 = new FlxSound().loadEmbedded(Paths.voices1(PlayState.SONG.song));
+		        vocals2 = new FlxSound().loadEmbedded(Paths.voices1(PlayState.SONG.song));
+		}
 		else
-			vocals = new FlxSound();
+			vocals1 = new FlxSound();
+		        vocals2 = new FlxSound();
 
-		vocals.onComplete = function()
+		vocals1.onComplete = function()
+		{
+			vocalsFinished = true;
+		}
+		
+		vocals2.onComplete = function()
 		{
 			vocalsFinished = true;
 		}
 
-		FlxG.sound.list.add(vocals);
+		FlxG.sound.list.add(vocals1);
+		FlxG.sound.list.add(vocals2);
 		FlxG.sound.list.add(new FlxSound().loadEmbedded(Paths.inst(PlayState.SONG.song)));
 
 		notes = new FlxTypedGroup<Note>();
@@ -1744,7 +1759,8 @@ class PlayState extends MusicBeatState
 	{
 		if(finishTimer != null) return;
 
-		vocals.pause();
+		vocals1.pause();
+		vocals2.pause();
 
 		FlxG.sound.music.play();
 		Conductor.songPosition = FlxG.sound.music.time;
@@ -1752,8 +1768,10 @@ class PlayState extends MusicBeatState
 		if (vocalsFinished)
 			return;
 
-		vocals.time = Conductor.songPosition;
-		vocals.play();
+		vocals1.time = Conductor.songPosition;
+		vocals1.play();
+		vocals2.time = Conductor.songPosition;
+		vocals2.play();
 	}
 
 	public var paused:Bool = false;
@@ -2112,7 +2130,8 @@ class PlayState extends MusicBeatState
 
 				paused = true;
 
-				vocals.stop();
+				vocals1.stop();
+				vocals2.stop();
 				FlxG.sound.music.stop();
 
 				persistentUpdate = false;
@@ -3126,14 +3145,16 @@ class PlayState extends MusicBeatState
 
 		if(instakillOnMiss)
 		{
-			vocals.volume = 0;
+			vocals1.volume = 0;
+			vocals2.volume = 0;
 			doDeathCheck(true);
 		}
 
 		//For testing purposes
 		//trace(daNote.missHealth);
 		songMisses++;
-		vocals.volume = 0;
+		vocals1.volume = 0;
+		vocals2.volume = 0;
 		if(!practiceMode) songScore -= 10;
 
 		totalPlayed++;
@@ -3162,7 +3183,8 @@ class PlayState extends MusicBeatState
 			health -= 0.05 * healthLoss;
 			if(instakillOnMiss)
 			{
-				vocals.volume = 0;
+				vocals1.volume = 0;
+				vocals2.volume = 0;
 				doDeathCheck(true);
 			}
 
@@ -3194,7 +3216,8 @@ class PlayState extends MusicBeatState
 			if(boyfriend.hasMissAnimations) {
 				boyfriend.playAnim(singAnimations[Std.int(Math.abs(direction))] + 'miss', true);
 			}
-			vocals.volume = 0;
+			vocals1.volume = 0;
+			vocals2.volume = 0;
 		}
 		callOnLuas('noteMissPress', [direction]);
 	}
@@ -3335,7 +3358,8 @@ class PlayState extends MusicBeatState
 				}
 			}
 			note.wasGoodHit = true;
-			vocals.volume = 1;
+			vocals1.volume = 1;
+			vocals2.volume = 1;
 
 			var isSus:Bool = note.isSustainNote; //GET OUT OF MY HEAD, GET OUT OF MY HEAD, GET OUT OF MY HEAD
 			var leData:Int = Math.round(Math.abs(note.noteData));
