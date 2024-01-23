@@ -3467,7 +3467,8 @@ class PlayState extends MusicBeatState
 	{
 		super.stepHit();
 		if (canResync && (Math.abs(FlxG.sound.music.time - (Conductor.songPosition - Conductor.offset)) > 20
-			|| (!vocalsFinished && SONG.needsVoices && Math.abs(vocals1.time(vocals2.time - (Conductor.songPosition - Conductor.offset))) > 20)))
+			|| (!vocalsFinished && SONG.needsVoices && Math.abs(vocals2.time - (Conductor.songPosition - Conductor.offset)) > 20))
+			|| (!vocalsFinished && SONG.needsVoices && Math.abs(vocals1.time - (Conductor.songPosition - Conductor.offset)) > 20)))
 		{
 			resyncVocals();
 		}
