@@ -449,11 +449,15 @@ class FreeplayState extends MusicBeatState
 	}
 
 	public static function destroyFreeplayVocals() {
-		if(vocals != null) {
-			vocals.stop();
-			vocals.destroy();
+		if(vocals1 != null) {
+			vocals1.stop();
+			vocals1.destroy();
 		}
-		vocals = null;
+		if(vocals2 != null) {
+			vocals2.stop();
+			vocals2.destroy();
+		}
+		vocals2 = null;
 	}
 
 	function changeDiff(change:Int = 0)
