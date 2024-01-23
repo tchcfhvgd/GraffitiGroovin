@@ -106,7 +106,7 @@ class FreeplayState extends MusicBeatState
 		characterSkarlet.updateHitbox();
 		characterSkarlet.x = FlxG.width - characterSkarlet.width - 80;
 		characterSkarlet.antialiasing = ClientPrefs.globalAntialiasing;
-		characterSkarlet.alpha = 0.00001;
+		characterSkarlet.alpha = 1;
 		add(characterSkarlet);
 
 		//characterMatt = new FlxSprite(0, 0).loadGraphic(Paths.image('renders/matt'));
