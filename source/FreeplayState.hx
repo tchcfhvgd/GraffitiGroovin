@@ -375,10 +375,11 @@ class FreeplayState extends MusicBeatState
 				{
 					vocals1 = new FlxSound().loadEmbedded(Paths.voices1(PlayState.SONG.song));
 				        vocals2 = new FlxSound().loadEmbedded(Paths.voices2(PlayState.SONG.song));
-				} else
+				} else {
 					vocals1 = new FlxSound();
 				        vocals2 = new FlxSound();
-
+				}
+				
 				FlxG.sound.list.add(vocals1);
 				FlxG.sound.list.add(vocals2);
 				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 0.7);
