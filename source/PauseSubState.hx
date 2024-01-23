@@ -333,7 +333,8 @@ class PauseSubState extends MusicBeatSubstate
 	{
 		PlayState.instance.paused = true; // For lua
 		FlxG.sound.music.volume = 0;
-		PlayState.instance.vocals.volume = 0;
+		PlayState.instance.vocals1.volume = 0;
+		PlayState.instance.vocals2.volume = 0;
 
 		if(noTrans)
 		{
