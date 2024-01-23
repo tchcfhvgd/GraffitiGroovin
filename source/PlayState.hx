@@ -1649,7 +1649,8 @@ class PlayState extends MusicBeatState
 			if (FlxG.sound.music != null)
 			{
 				FlxG.sound.music.pause();
-				vocals.pause();
+				vocals1.pause();
+				vocals2.pause();
 			}
 
 			if (startTimer != null && !startTimer.finished)
@@ -1811,7 +1812,8 @@ class PlayState extends MusicBeatState
 
 				if(FlxG.sound.music != null) {
 					FlxG.sound.music.pause();
-					vocals.pause();
+					vocals1.pause();
+					vocals2.pause();
 				}
 				openSubState(new PauseSubState());
 
@@ -2588,8 +2590,10 @@ class PlayState extends MusicBeatState
 
 		updateTime = false;
 		FlxG.sound.music.volume = 0;
-		vocals.volume = 0;
-		vocals.pause();
+		vocals1.volume = 0;
+		vocals1.pause();
+		vocals2.volume = 0;
+		vocals2.pause();
 		if(ClientPrefs.noteOffset <= 0 || ignoreNoteOffset) {
 			finishCallback();
 		} else {
@@ -3253,7 +3257,8 @@ class PlayState extends MusicBeatState
 				char.holdTimer = 0;
 			}
 		}
-		vocals.volume = 1;
+		vocals1.volume = 1;
+		vocals2.volume = 1;
 
 		var time:Float = 0.15;
 		if(note.isSustainNote && !note.isHoldEnd) {
@@ -3462,8 +3467,9 @@ class PlayState extends MusicBeatState
 	override function stepHit()
 	{
 		super.stepHit();
-		if (canResync && (Math.abs(FlxG.sound.music.time - (Conductor.songPosition - Conductor.offset)) > 20
-			|| (!vocalsFinished && SONG.needsVoices && Math.abs(vocals.time - (Conductor.songPosition - Conductor.offset)) > 20)))
+		if ((canResync && ((Math.abs(FlxG.sound.music.time - (Conductor.songPosition - Conductor.offset)) > 20
+			|| (!vocalsFinished && SONG.needsVoices && Math.abs(vocals1.time - (Conductor.songPosition - Conductor.offset)) > 20)))
+			|| (!vocalsFinished && SONG.needsVoices && Math.abs(vocals2.time - (Conductor.songPosition - Conductor.offset)) > 20)))
 		{
 			resyncVocals();
 		}
