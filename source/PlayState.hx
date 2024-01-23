@@ -973,7 +973,7 @@ class PlayState extends MusicBeatState
 
 			video.finishCallback = function() {
 				
-				setSongTime(stopCutsceneOnTime + 100);
+				startOnTime = skipToTime * 1000;
 				
 				if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null && !endingSong && !isCameraOnForcedPos)
 				{
