@@ -127,7 +127,8 @@ class PlayState extends MusicBeatState
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
 
-	public var vocals:FlxSound;
+	public var vocals1:FlxSound;
+	public var vocals2:FlxSound;
 
 	public var dad:Character = null;
 	public var gf:Character = null;
